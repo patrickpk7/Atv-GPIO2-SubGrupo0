@@ -1,20 +1,17 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
 #include "pico/stdlib.h"
 #include "hardware/pio.h"
 #include "hardware/clocks.h"
-#include "hardware/adc.h"
-#include "pico/bootrom.h"
+
 
 //arquivo .pio
-#include "pio_matrix.pio.h"
+#include "ws2818b.pio.h"
 
 //numero de LEDs
-#define NUM_PIXELS 25
+#define LED_COUNT 25
 
 //pino de saída
-#define OUT_PIN 7
+#define LED_PIN 7
 
 //Teclado matricial
 uint linhas[4] = {1,2,3,4}; // Pinos das linhas do teclado matricial
@@ -59,50 +56,95 @@ char ler_teclado(){ //Declara a função chamada ler_teclado que retorna um valo
     return '\0'; //Retorna '\0' se nenhuma tecla foi pressionada
 }
 
-//vetor para criar imagem na matriz de led - 1
-double seta_cima[25] =   {0.0, 0.0, 1.0, 0.0, 0.0,
-                        0.0, 1.0, 1.0, 1.0, 0.0, 
-                        1.0, 0.0, 1.0, 0.0, 1.0,
-                        0.0, 0.0, 1.0, 0.0, 0.0,
-                        0.0, 0.0, 1.0, 0.0, 0.0};
+// Definição de pixel GRB
+struct pixel_t {
+  uint8_t G, R, B; // Três valores de 8-bits compõem um pixel.
+};
+typedef struct pixel_t pixel_t;
+typedef pixel_t npLED_t; // Mudança de nome de "struct pixel_t" para "npLED_t" por clareza.
 
-//vetor para criar imagem na matriz de led - 2
-double seta_baixo[25] =   {0.0, 0.0, 1.0, 0.0, 0.0,
-                        0.0, 0.0, 1.0, 0.0, 0.0, 
-                        1.0, 0.0, 1.0, 0.0, 1.0,
-                        0.0, 1.0, 1.0, 1.0, 0.0,
-                        0.0, 0.0, 1.0, 0.0, 0.0};
+// Declaração do buffer de pixels que formam a matriz.
+npLED_t leds[LED_COUNT];
 
-//vetor para criar imagem na matriz de led - 3
-double letra_x[25] =   {0.3, 0.0, 0.0, 0.0, 0.3,
-                        0.0, 0.3, 0.0, 0.3, 0.0, 
-                        0.0, 0.0, 0.3, 0.0, 0.0,
-                        0.0, 0.3, 0.0, 0.3, 0.0,
-                        0.3, 0.0, 0.0, 0.0, 0.3};
+// Variáveis para uso da máquina PIO.
+PIO np_pio;
+uint sm;
 
-//vetor para criar imagem na matriz de led - 4
-double quadrado[25] =   {1.0, 0.3, 0.3, 0.3, 1.0,
-                        0.3, 0.0, 0.0, 0.0, 0.3, 
-                        0.3, 0.0, 0.0, 0.0, 0.3,
-                        0.3, 0.0, 0.0, 0.0, 0.3,
-                        1.0, 0.3, 0.3, 0.3, 1.0};
+/**
+ * Inicializa a máquina PIO para controle da matriz de LEDs.
+ */
+void npInit(uint pin) {
 
-//vetor para criar imagem na matriz de led - 5
-double carinha_feliz[25] =   {0.0, 1.0, 0.0, 1.0, 0.0,
-                        0.0, 1.0, 0.0, 1.0, 0.0, 
-                        0.0, 0.0, 0.0, 0.0, 0.0,
-                        1.0, 0.0, 0.0, 0.0, 1.0,
-                        0.0, 1.0, 1.0, 1.0, 0.0};
+  // Cria programa PIO.
+  uint offset = pio_add_program(pio0, &ws2818b_program);
+  np_pio = pio0;
+
+  // Toma posse de uma máquina PIO.
+  sm = pio_claim_unused_sm(np_pio, false);
+  if (sm < 0) {
+    np_pio = pio1;
+    sm = pio_claim_unused_sm(np_pio, true); // Se nenhuma máquina estiver livre, panic!
+  }
+
+  // Inicia programa na máquina PIO obtida.
+  ws2818b_program_init(np_pio, sm, offset, pin, 800000.f);
+
+  // Limpa buffer de pixels.
+  for (uint i = 0; i < LED_COUNT; ++i) {
+    leds[i].R = 0;
+    leds[i].G = 0;
+    leds[i].B = 0;
+  }
+}
+
+/**
+ * Atribui uma cor RGB a um LED.
+ */
+void npSetLED(const uint index, const uint8_t r, const uint8_t g, const uint8_t b) {
+  leds[index].R = r;
+  leds[index].G = g;
+  leds[index].B = b;
+}
+
+/**
+ * Limpa o buffer de pixels.
+ */
+void npClear() {
+  for (uint i = 0; i < LED_COUNT; ++i)
+    npSetLED(i, 0, 0, 0);
+}
+
+/**
+ * Escreve os dados do buffer nos LEDs.
+ */
+void npWrite() {
+  // Escreve cada dado de 8-bits dos pixels em sequência no buffer da máquina PIO.
+  for (uint i = 0; i < LED_COUNT; ++i) {
+    pio_sm_put_blocking(np_pio, sm, leds[i].G);
+    pio_sm_put_blocking(np_pio, sm, leds[i].R);
+    pio_sm_put_blocking(np_pio, sm, leds[i].B);
+  }
+  sleep_us(100); // Espera 100us, sinal de RESET do datasheet.
+}
 
 
 
+int main() {
 
-int main()
-{
-    stdio_init_all();
+  // Inicializa entradas e saídas.
+  stdio_init_all();
 
-    while (true) {
-        printf("Hello, world!\n");
-        sleep_ms(1000);
-    }
+  // Inicializa matriz de LEDs NeoPixel.
+  npInit(LED_PIN);
+  npClear();
+
+  // Aqui, você desenha nos LEDs.
+
+
+  npWrite(); // Escreve os dados nos LEDs.
+
+  // Não faz mais nada. Loop infinito.
+  while (true) {
+    sleep_ms(1000);
+  }
 }
