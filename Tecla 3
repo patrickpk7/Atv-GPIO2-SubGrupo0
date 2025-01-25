@@ -102,3 +102,44 @@ void setup() {
   strip.show();
   clearLEDs();
 }
+void loop() {
+  // Exemplo: Acionar animação ao pressionar a tecla "3"
+  int buttonPressed = 3; // Substitua pela leitura real do teclado
+  if (buttonPressed == 3) {
+    displayAnimation();
+  }
+}
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, PIN, NEO_GRB + NEO_KHZ800);
+
+// Definição da cor verde com 50% de intensidade
+#define GREEN_HALF strip.Color(0, 127, 0)
+
+// Função para ligar todos os LEDs na cor verde (50% da intensidade)
+void displayGreenHalfIntensity() {
+  for (int i = 0; i < NUM_LEDS; i++) {
+    strip.setPixelColor(i, GREEN_HALF);
+  }
+  strip.show();
+}
+
+void clearLEDs() {
+  for (int i = 0; i < NUM_LEDS; i++) {
+    strip.setPixelColor(i, 0); // Desligar todos os LEDs
+  }
+  strip.show();
+}
+
+void setup() {
+  strip.begin();
+  strip.show();
+  clearLEDs();
+}
+
+void loop() {
+  // Exemplo: Acionar o efeito ao pressionar a tecla "D"
+  char buttonPressed = 'D'; // Substitua pela lógica de leitura do teclado
+
+  if (buttonPressed == 'D') {
+    displayGreenHalfIntensity();
+  }
+}
