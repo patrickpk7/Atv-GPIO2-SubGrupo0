@@ -11,6 +11,7 @@
 // Arquivo .pio
 #include "pio_matrix.pio.h"
 
+//
 // Número de LEDs
 #define NUM_PIXELS 25
 
