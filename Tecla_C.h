@@ -18,7 +18,7 @@
 
 
 // Rotina para definir a intensidade de cores do LED
-uint32_t matrix_rgb4(double r, double g, double b) {
+uint32_t matrix_rgb6(double r, double g, double b) {
     unsigned char R, G, B;
     R = r * 255;
     G = g * 255;
@@ -26,12 +26,10 @@ uint32_t matrix_rgb4(double r, double g, double b) {
     return (G << 24) | (R << 16) | (B << 8);
 }
 
-// Função para desligar todos os LEDs
-void ligar_verde(PIO pio, uint sm) {
-    uint32_t valor_led = matrix_rgb4(0.0, 0.5, 0.0);
+// Função para ligar o LED vermelho com intensidade de 80%
+void ligar_vermelho(PIO pio, uint sm) {
+    uint32_t valor_led = matrix_rgb6(0.8, 0.0, 0.0); 
     for (int16_t i = 0; i < NUM_PIXELS; i++) {
         pio_sm_put_blocking(pio, sm, valor_led);
     }
 }
-
-
