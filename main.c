@@ -6,6 +6,8 @@
 #include "hardware/clocks.h"
 #include "hardware/adc.h"
 #include "pico/bootrom.h"
+#include "tecla_0.h"
+#include "tecla_A.h"
 
 // Arquivo .pio
 #include "pio_matrix.pio.h"
@@ -58,64 +60,16 @@ char ler_teclado() {
     return '\0';  // Retorna '\0' se nenhuma tecla foi pressionada
 }
 
-// Vetores para desenhos na matriz de LED
-double seta_baixo[25] = {
-    0.0, 0.0, 1.0, 0.0, 0.0,
-    0.0, 1.0, 1.0, 1.0, 0.0,
-    0.0, 0.0, 1.0, 0.0, 0.0,
-    0.0, 0.0, 1.0, 0.0, 0.0,
-    0.0, 0.0, 1.0, 0.0, 0.0};
 
-double seta_cima[25] = {
-    0.0, 0.0, 0.5, 0.0, 0.0,
-    0.0, 0.0, 0.5, 0.0, 0.0,
-    0.0, 0.0, 0.5, 0.0, 0.0,
-    0.0, 0.5, 0.5, 0.5, 0.0,
-    0.0, 0.0, 0.5, 0.0, 0.0};
 
-double letra_x[25] = {
-    0.7, 0.0, 0.0, 0.0, 0.7,
-    0.0, 0.7, 0.0, 0.7, 0.0,
-    0.0, 0.0, 0.3, 0.0, 0.0,
-    0.0, 0.7, 0.0, 0.7, 0.0,
-    0.7, 0.0, 0.0, 0.0, 0.7};
 
-double quadrado[25] = {
-    0.5, 0.5, 0.5, 0.5, 0.5,
-    0.5, 0.0, 0.0, 0.0, 0.5,
-    0.5, 0.0, 0.0, 0.0, 0.5,
-    0.5, 0.0, 0.0, 0.0, 0.5,
-    0.5, 0.5, 0.5, 0.5, 0.5};
 
-double losango[25] = {
-    0.0, 0.0, 1.0, 0.0, 0.0,
-    0.0, 0.5, 0.0, 0.5, 0.0,
-    0.3, 0.0, 0.0, 0.0, 0.3,
-    0.0, 0.5, 0.0, 0.5, 0.0,
-    0.0, 0.0, 1.0, 0.0, 0.0};
-
-// Rotina para definir a intensidade de cores do LED
-uint32_t matrix_rgb(double r, double g, double b) {
-    unsigned char R, G, B;
-    R = r * 255;
-    G = g * 255;
-    B = b * 255;
-    return (G << 24) | (R << 16) | (B << 8);
-}
-
-// Rotina para acionar a matriz de LEDs - WS2812B
-void desenho_pio(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b) {
-    for (int16_t i = 0; i < NUM_PIXELS; i++) {
-        valor_led = matrix_rgb(desenho[i] * r, desenho[i] * g, desenho[i] * b);
-        pio_sm_put_blocking(pio, sm, valor_led);
-    }
-}
 
 // Função principal
 int main() {
     PIO pio = pio0;
     bool ok;
-    uint32_t valor_led;
+    
     
 
     ok = set_sys_clock_khz(128000, false);
@@ -136,18 +90,16 @@ int main() {
     while (true) {
         char tecla = ler_teclado();  // Lê a tecla pressionada
 
-        if (tecla == '0') {  // Verifica se a tecla '0' foi pressionada
-            desenho_pio(seta_baixo, valor_led, pio, sm, 1.0, 0.0, 0.0);  // Vermelho
-            sleep_ms(500);
-            desenho_pio(seta_cima, valor_led, pio, sm, 0.0, 0.0, 1.0);  // Azul
-            sleep_ms(500);
-            desenho_pio(letra_x, valor_led, pio, sm, 0.0, 1.0, 0.0);  // Verde
-            sleep_ms(500);
-            desenho_pio(quadrado, valor_led, pio, sm, 1.0, 1.0, 0.0);  // Amarelo
-            sleep_ms(500);
-            desenho_pio(losango, valor_led, pio, sm, 1.0,0.0,1.0);  // Rosa
-            sleep_ms(500); 
-            }
+        switch (tecla)
+        {
+        case '0':
+            aciona_tecla_0(0, pio, sm); // Aciona a tecla 0
+            break;
+
+        case 'A':
+            aciona_tecla_A(pio, sm); // Aciona a tecla A
+        default:
+            break;
         }
     }
-
+}

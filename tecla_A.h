@@ -18,7 +18,7 @@
 
 
 // Rotina para definir a intensidade de cores do LED
-uint32_t matrix_rgb(double r, double g, double b) {
+uint32_t matrix_rgb2(double r, double g, double b) {
     unsigned char R, G, B;
     R = r * 255;
     G = g * 255;
@@ -28,7 +28,7 @@ uint32_t matrix_rgb(double r, double g, double b) {
 
 // Função para desligar todos os LEDs
 void aciona_tecla_A (PIO pio, uint sm) {
-    uint32_t valor_led = matrix_rgb(0.0, 0.0, 0.0);
+    uint32_t valor_led = matrix_rgb2(0.0, 0.0, 0.0);
     for (int16_t i = 0; i < NUM_PIXELS; i++) {
         pio_sm_put_blocking(pio, sm, valor_led);
     }
