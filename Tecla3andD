@@ -1,0 +1,169 @@
+#define NUM_LEDS 25 // Número de LEDs na matriz 5x5
+#define ROWS 5
+#define COLS 5
+
+// Definindo os pinos conectados aos LEDs (ajuste conforme sua conexão)
+uint8_t ledPins[NUM_LEDS] = {
+    2, 3, 4, 5, 6,  // Linha 1
+    7, 8, 9, 10, 11, // Linha 2
+    12, 13, 14, 15, 16, // Linha 3
+    17, 18, 19, 20, 21, // Linha 4
+    22, 23, 24, 25, 26  // Linha 5
+};
+
+// Função para configurar os pinos dos LEDs como saída
+void setupLEDs() {
+    for (int i = 0; i < NUM_LEDS; i++) {
+        pinMode(ledPins[i], OUTPUT);
+        digitalWrite(ledPins[i], LOW); // Inicializa os LEDs desligados
+    }
+}
+
+// Função para apagar todos os LEDs
+void clearLEDs() {
+    for (int i = 0; i < NUM_LEDS; i++) {
+        digitalWrite(ledPins[i], LOW); // Desliga o LED
+    }
+}
+
+// Função para ligar um LED
+void lightLED(int row, int col) {
+    int index = row * COLS + col; // Calcula o índice do LED
+    if (index < NUM_LEDS) {
+        digitalWrite(ledPins[index], HIGH); // Liga o LED
+    }
+}
+
+// Função para exibir uma letra na matriz 5x5
+void displayLetter(char letter) {
+    clearLEDs(); // Apaga os LEDs antes de exibir a letra
+
+    // Definindo os pixels ligados para cada letra
+    uint8_t letters[ROWS][COLS] = {0};
+
+    switch (letter) {
+        case 'A':
+            memcpy(letters, (uint8_t[ROWS][COLS]){
+                {0, 1, 1, 1, 0},
+                {1, 0, 0, 0, 1},
+                {1, 1, 1, 1, 1},
+                {1, 0, 0, 0, 1},
+                {1, 0, 0, 0, 1}},
+                sizeof(letters));
+            break;
+        case 'L':
+            memcpy(letters, (uint8_t[ROWS][COLS]){
+                {1, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0},
+                {1, 1, 1, 1, 1}},
+                sizeof(letters));
+            break;
+        case 'I':
+            memcpy(letters, (uint8_t[ROWS][COLS]){
+                {0, 1, 1, 1, 0},
+                {0, 0, 1, 0, 0},
+                {0, 0, 1, 0, 0},
+                {0, 0, 1, 0, 0},
+                {0, 1, 1, 1, 0}},
+                sizeof(letters));
+            break;
+        case 'N':
+            memcpy(letters, (uint8_t[ROWS][COLS]){
+                {1, 0, 0, 0, 1},
+                {1, 1, 0, 0, 1},
+                {1, 0, 1, 0, 1},
+                {1, 0, 0, 1, 1},
+                {1, 0, 0, 0, 1}},
+                sizeof(letters));
+            break;
+        case 'E':
+            memcpy(letters, (uint8_t[ROWS][COLS]){
+                {1, 1, 1, 1, 1},
+                {1, 0, 0, 0, 0},
+                {1, 1, 1, 1, 0},
+                {1, 0, 0, 0, 0},
+                {1, 1, 1, 1, 1}},
+                sizeof(letters));
+            break;
+    }
+
+    // Ligar os LEDs correspondentes à letra
+    for (int row = 0; row < ROWS; row++) {
+        for (int col = 0; col < COLS; col++) {
+            if (letters[row][col] == 1) {
+                lightLED(row, col); // Liga o LED correspondente
+            }
+        }
+    }
+    delay(500); // Duração do frame
+}
+
+// Animação para exibir "ALINE"
+void displayAnimation() {
+    char name[] = "ALINE";
+    for (int i = 0; i < (int)strlen(name); i++) {
+        displayLetter(name[i]);
+    }
+    clearLEDs(); // Apaga os LEDs após a animação
+}
+
+void setup() {
+    setupLEDs(); // Configurar os pinos de LED
+    clearLEDs(); // Certificar-se de que os LEDs começam apagados
+}
+
+void loop() {
+    // Exemplo: Acionar animação ao pressionar a tecla "3"
+    int buttonPressed = 3; // Substitua pela lógica de leitura do botão/teclado
+    if (buttonPressed == 3) {
+        displayAnimation(); // Exibir animação
+    }
+}
+#define NUM_LEDS 25 // Número de LEDs na matriz 5x5
+
+// Simulação dos pinos conectados à matriz de LEDs
+uint8_t ledPins[NUM_LEDS] = {
+    2, 3, 4, 5, 6,  // Pinos da linha 1
+    7, 8, 9, 10, 11, // Pinos da linha 2
+    12, 13, 14, 15, 16, // Pinos da linha 3
+    17, 18, 19, 20, 21, // Pinos da linha 4
+    22, 23, 24, 25, 26  // Pinos da linha 5
+};
+
+// Função para configurar os pinos como saída
+void setupLEDs() {
+    for (int i = 0; i < NUM_LEDS; i++) {
+        pinMode(ledPins[i], OUTPUT); // Configura os pinos como saída
+        digitalWrite(ledPins[i], LOW); // Inicializa os LEDs desligados
+    }
+}
+
+// Função para ligar todos os LEDs com brilho reduzido (50%)
+void displayGreenHalfIntensity() {
+    for (int i = 0; i < NUM_LEDS; i++) {
+        analogWrite(ledPins[i], 127); // Define brilho em 50% (0 a 255)
+    }
+}
+
+// Função para desligar todos os LEDs
+void clearLEDs() {
+    for (int i = 0; i < NUM_LEDS; i++) {
+        digitalWrite(ledPins[i], LOW); // Desliga os LEDs
+    }
+}
+
+void setup() {
+    setupLEDs(); // Configurar os pinos de LED
+    clearLEDs(); // Certificar-se de que os LEDs começam apagados
+}
+
+void loop() {
+    // Simulação de tecla pressionada
+    char buttonPressed = 'D'; // Substitua pela lógica de leitura do botão/teclado
+
+    if (buttonPressed == 'D') {
+        displayGreenHalfIntensity(); // Liga os LEDs em verde 50%
+    }
+}
