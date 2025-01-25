@@ -63,34 +63,27 @@ uint32_t matrix_rgb3(double r, double g, double b) {
     return (G << 24) | (R << 16) | (B << 8);
 }
 
-// Função para corrigir a ordem dos LEDs (inverter as linhas)
-int corrigir_indice(int index) {
-    int row = index / 5; // Linha original
-    int col = index % 5; // Coluna original
-    int row_corrigida = 4 - row; // Inverte a linha (0 -> 4, 1 -> 3, etc.)
-    return row_corrigida * 5 + col; // Novo índice corrigido
-}
+
 
 // Rotina para acionar a matriz de LEDs - WS2812B
 void desenho_pio1(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b) {
     for (int16_t i = 0; i < NUM_PIXELS; i++) {
-        int index_corrigido = corrigir_indice(i); // Corrige o índice do LED
-        valor_led = matrix_rgb(desenho[index_corrigido] * r, desenho[index_corrigido] * g, desenho[index_corrigido] * b);
+        valor_led = matrix_rgb3(desenho[i] * r, desenho[i] * g, desenho[i] * b);
         pio_sm_put_blocking(pio, sm, valor_led);
     }
 }
 
 // Função para exibir a animação da palavra "ALINE"
 void animacao_ALINE(uint32_t valor_led, PIO pio, uint sm) {
-    desenho_pio(letra_A, valor_led, pio, sm, 1.0, 0.0, 0.0); // Vermelho
+    desenho_pio1(letra_A, valor_led, pio, sm, 1.0, 0.0, 0.0); // Vermelho
     sleep_ms(1000);
-    desenho_pio(letra_L, valor_led, pio, sm, 0.0, 1.0, 0.0); // Verde
+    desenho_pio1(letra_L, valor_led, pio, sm, 0.0, 1.0, 0.0); // Verde
     sleep_ms(1000);
-    desenho_pio(letra_I, valor_led, pio, sm, 0.0, 0.0, 1.0); // Azul
+    desenho_pio1(letra_I, valor_led, pio, sm, 0.0, 0.0, 1.0); // Azul
     sleep_ms(1000);
-    desenho_pio(letra_N, valor_led, pio, sm, 1.0, 1.0, 0.0); // Amarelo
+    desenho_pio1(letra_N, valor_led, pio, sm, 1.0, 1.0, 0.0); // Amarelo
     sleep_ms(1000);
-    desenho_pio(letra_E, valor_led, pio, sm, 1.0, 0.0, 1.0); // Rosa
+    desenho_pio1(letra_E, valor_led, pio, sm, 1.0, 0.0, 1.0); // Rosa
     sleep_ms(1000);
 }
 

@@ -8,7 +8,9 @@
 #include "pico/bootrom.h"
 #include "tecla_0.h"
 #include "tecla_A.h"
-#include "Tecla3andD.h"
+#include "Tecla3.h"
+#include "TeclaD.h"
+#include "Tecla2.h"
 
 // Arquivo .pio
 #include "pio_matrix.pio.h"
@@ -95,12 +97,20 @@ int main() {
         {
         case '0':
             aciona_tecla_0(0, pio, sm); // Aciona a tecla 0
+        case '1':
+            break;
+        case '2':
+            animacao_CORACAO(0, pio, sm); // Exibe a animação do coração
             break;
         case '3':
             animacao_ALINE(0, pio, sm); // Exibe a animação da palavra "ALINE"
             break;
         case 'A':
             aciona_tecla_A(pio, sm); // Aciona a tecla A
+            break;
+        case 'D':
+            ligar_verde(pio, sm); // Aciona a tecla D
+            break;
         default:
             break;
         }
