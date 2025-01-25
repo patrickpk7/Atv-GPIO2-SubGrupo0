@@ -59,40 +59,40 @@ char ler_teclado() {
 }
 
 // Vetores para desenhos na matriz de LED
-double seta_baixo[25] = {
+double quadrado_preenchido[25] = {
+    0.7, 0.7, 0.7, 0.7, 0.7,
+    0.7, 0.7, 0.7, 0.7, 0.7,
+    0.7, 0.7, 0.7, 0.7, 0.7,
+    0.7, 0.7, 0.7, 0.7, 0.7,
+    0.7, 0.7, 0.7, 0.7, 0.7};
+
+double cruz[25] = {
     0.0, 0.0, 1.0, 0.0, 0.0,
-    0.0, 1.0, 1.0, 1.0, 0.0,
     0.0, 0.0, 1.0, 0.0, 0.0,
     0.0, 0.0, 1.0, 0.0, 0.0,
+    1.0, 1.0, 1.0, 1.0, 1.0,
     0.0, 0.0, 1.0, 0.0, 0.0};
 
-double seta_cima[25] = {
-    0.0, 0.0, 0.5, 0.0, 0.0,
-    0.0, 0.0, 0.5, 0.0, 0.0,
-    0.0, 0.0, 0.5, 0.0, 0.0,
+double letra_o[25] = {
     0.0, 0.5, 0.5, 0.5, 0.0,
-    0.0, 0.0, 0.5, 0.0, 0.0};
-
-double letra_x[25] = {
-    0.7, 0.0, 0.0, 0.0, 0.7,
-    0.0, 0.7, 0.0, 0.7, 0.0,
-    0.0, 0.0, 0.3, 0.0, 0.0,
-    0.0, 0.7, 0.0, 0.7, 0.0,
-    0.7, 0.0, 0.0, 0.0, 0.7};
-
-double quadrado[25] = {
-    0.5, 0.5, 0.5, 0.5, 0.5,
     0.5, 0.0, 0.0, 0.0, 0.5,
     0.5, 0.0, 0.0, 0.0, 0.5,
     0.5, 0.0, 0.0, 0.0, 0.5,
-    0.5, 0.5, 0.5, 0.5, 0.5};
+    0.0, 0.5, 0.5, 0.5, 0.0};
 
-double losango[25] = {
-    0.0, 0.0, 1.0, 0.0, 0.0,
-    0.0, 0.5, 0.0, 0.5, 0.0,
-    0.3, 0.0, 0.0, 0.0, 0.3,
-    0.0, 0.5, 0.0, 0.5, 0.0,
+double casa[25] = {
+    1.0, 1.0, 1.0, 0.0, 1.0,
+    1.0, 0.0, 1.0, 0.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0,
+    0.0, 1.0, 1.0, 1.0, 0.0,
     0.0, 0.0, 1.0, 0.0, 0.0};
+
+double escada[25] = {
+    0.7, 0.7, 0.7, 0.7, 0.7,
+    0.7, 0.7, 0.7, 0.7, 0.0,
+    0.0, 0.0, 0.7, 0.7, 0.7,
+    0.7, 0.7, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.7};
 
 // Rotina para definir a intensidade de cores do LED
 uint32_t matrix_rgb(double r, double g, double b) {
@@ -136,16 +136,16 @@ int main() {
     while (true) {
         char tecla = ler_teclado();  // Lê a tecla pressionada
 
-        if (tecla == '0') {  // Verifica se a tecla '0' foi pressionada
-            desenho_pio(seta_baixo, valor_led, pio, sm, 1.0, 0.0, 0.0);  // Vermelho
+        if (tecla == '8') {  // Verifica se a tecla '8' foi pressionada
+            desenho_pio(quadrado_preenchido, valor_led, pio, sm, 0.0, 1.0, 0.0);  // Vermelho
             sleep_ms(500);
-            desenho_pio(seta_cima, valor_led, pio, sm, 0.0, 0.0, 1.0);  // Azul
+            desenho_pio(cruz, valor_led, pio, sm, 0.0, 0.0, 1.0);  // Azul
             sleep_ms(500);
-            desenho_pio(letra_x, valor_led, pio, sm, 0.0, 1.0, 0.0);  // Verde
+            desenho_pio(letra_o, valor_led, pio, sm, 1.0, 1.0, 0.0);  // Verde
             sleep_ms(500);
-            desenho_pio(quadrado, valor_led, pio, sm, 1.0, 1.0, 0.0);  // Amarelo
+            desenho_pio(casa, valor_led, pio, sm, 1.0, 0.0, 0.0);  // Amarelo
             sleep_ms(500);
-            desenho_pio(losango, valor_led, pio, sm, 1.0,0.0,1.0);  // Rosa
+            desenho_pio(escada, valor_led, pio, sm, 0.0, 1.0,1.0);  // Rosa
             sleep_ms(500); 
             }
         }
