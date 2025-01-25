@@ -1,4 +1,3 @@
-// Bibliotecas padrão para funcionamento do código
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -6,12 +5,11 @@
 #include "hardware/pio.h"
 #include "hardware/clocks.h"
 #include "hardware/adc.h"
-#include "pico/bootrom.h" 
+#include "pico/bootrom.h"
 
 // Arquivo .pio
 #include "pio_matrix.pio.h"
 
-//
 // Número de LEDs
 #define NUM_PIXELS 25
 
@@ -69,21 +67,21 @@ double seta_baixo[25] = {
     0.0, 0.0, 1.0, 0.0, 0.0};
 
 double seta_cima[25] = {
-    0.0, 0.0, 1.0, 0.0, 0.0,
-    0.0, 0.0, 1.0, 0.0, 0.0,
-    0.0, 0.0, 1.0, 0.0, 0.0,
-    0.0, 1.0, 1.0, 1.0, 0.0,
-    0.0, 0.0, 1.0, 0.0, 0.0};
+    0.0, 0.0, 0.5, 0.0, 0.0,
+    0.0, 0.0, 0.5, 0.0, 0.0,
+    0.0, 0.0, 0.5, 0.0, 0.0,
+    0.0, 0.5, 0.5, 0.5, 0.0,
+    0.0, 0.0, 0.5, 0.0, 0.0};
 
 double letra_x[25] = {
-    1.0, 0.0, 0.0, 0.0, 1.0,
-    0.0, 1.0, 0.0, 1.0, 0.0,
-    0.0, 0.0, 1.0, 0.0, 0.0,
-    0.0, 1.0, 0.0, 1.0, 0.0,
-    1.0, 0.0, 0.0, 0.0, 1.0};
+    0.7, 0.0, 0.0, 0.0, 0.7,
+    0.0, 0.7, 0.0, 0.7, 0.0,
+    0.0, 0.0, 0.3, 0.0, 0.0,
+    0.0, 0.7, 0.0, 0.7, 0.0,
+    0.7, 0.0, 0.0, 0.0, 0.7};
 
 double quadrado[25] = {
-    1.0, 1.0, 1.0, 1.0, 1.0,
+    0.5, 0.5, 0.5, 0.5, 0.5,
     0.5, 0.0, 0.0, 0.0, 0.5,
     0.5, 0.0, 0.0, 0.0, 0.5,
     0.5, 0.0, 0.0, 0.0, 0.5,
@@ -99,9 +97,9 @@ double losango[25] = {
 // Rotina para definir a intensidade de cores do LED
 uint32_t matrix_rgb(double r, double g, double b) {
     unsigned char R, G, B;
-    R = r * 255; // Converte a intensidade de cor vermelha para 8 bits
-    G = g * 255; // Converte a intensidade de cor verde para 8 bits
-    B = b * 255; // Converte a intensidade de cor azul para 8 bits
+    R = r * 255;
+    G = g * 255;
+    B = b * 255;
     return (G << 24) | (R << 16) | (B << 8);
 }
 
@@ -118,7 +116,7 @@ int main() {
     PIO pio = pio0;
     bool ok;
     uint32_t valor_led;
-    double r = 1.0, g = 0.0, b = 0.0;  // Cores padrão (branco)
+    
 
     ok = set_sys_clock_khz(128000, false);
     stdio_init_all();
@@ -134,17 +132,22 @@ int main() {
     // Inicializa o teclado matricial
     inicia_teclado();
 
-    // Vetor com os desenhos
-    double *desenhos[5] = {seta_baixo, seta_cima, letra_x, quadrado, losango};
-
+    
     while (true) {
         char tecla = ler_teclado();  // Lê a tecla pressionada
 
         if (tecla == '0') {  // Verifica se a tecla '0' foi pressionada
-            for (int i = 0; i < 5; i++) {
-                desenho_pio(desenhos[i], valor_led, pio, sm, r, g, b);
-                sleep_ms(500);  // Pausa entre os desenhos
+            desenho_pio(seta_baixo, valor_led, pio, sm, 1.0, 0.0, 0.0);  // Vermelho
+            sleep_ms(500);
+            desenho_pio(seta_cima, valor_led, pio, sm, 0.0, 0.0, 1.0);  // Azul
+            sleep_ms(500);
+            desenho_pio(letra_x, valor_led, pio, sm, 0.0, 1.0, 0.0);  // Verde
+            sleep_ms(500);
+            desenho_pio(quadrado, valor_led, pio, sm, 1.0, 1.0, 0.0);  // Amarelo
+            sleep_ms(500);
+            desenho_pio(losango, valor_led, pio, sm, 1.0,0.0,1.0);  // Rosa
+            sleep_ms(500); 
             }
         }
     }
-}
+
