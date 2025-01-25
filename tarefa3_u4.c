@@ -143,9 +143,9 @@ int main() {
             sleep_ms(500);
             desenho_pio(letra_x, valor_led, pio, sm, 0.0, 1.0, 0.0);  // Verde
             sleep_ms(500);
-            desenho_pio(quadrado, valor_led, pio, sm, 1.0, 1.0, 0.0);  // Branco
+            desenho_pio(quadrado, valor_led, pio, sm, 1.0, 1.0, 0.0);  // Amarelo
             sleep_ms(500);
-            desenho_pio(losango, valor_led, pio, sm, 1.0,0.0,1.0);  // Multicolorido
+            desenho_pio(losango, valor_led, pio, sm, 1.0,0.0,1.0);  // Rosa
             sleep_ms(500); 
             }
         }
