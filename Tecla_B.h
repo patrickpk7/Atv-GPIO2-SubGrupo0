@@ -18,7 +18,7 @@
 
 
 // Rotina para definir a intensidade de cores do LED
-uint32_t matrix_rgb2(double r, double g, double b) {
+uint32_t matrix_rgb8(double r, double g, double b) {
     unsigned char R, G, B;
     R = r * 255;
     G = g * 255;
@@ -26,26 +26,10 @@ uint32_t matrix_rgb2(double r, double g, double b) {
     return (G << 24) | (R << 16) | (B << 8);
 }
 
-// Função para ligar o azul no brilho máximo enquanto o verde e o vermelho permanecem desligados
-void ACIONA_TECLA_B (PIO pio, uint sm) {
-    uint32_t valor_led = matrix_rgb2(0.0, 0.0, 1.0);
+// Função para ligar todos os leds em azul com 100% de intensidade
+void aciona_tecla_B (PIO pio, uint sm) {
+    uint32_t valor_led = matrix_rgb8(0.0, 0.0, 1.0);
     for (int16_t i = 0; i < NUM_PIXELS; i++) {
         pio_sm_put_blocking(pio, sm, valor_led);
     }
 }
-
-void TECLA_B(){
- 
-  // Inicializa entradas e saídas.
-  stdio_init_all();
-  // Inicializa matriz de LEDs NeoPixel.
-  npInit(LED_PIN);
-  npClear();
-}
-  // Não faz mais nada. Loop infinito.
- while(1) {
-        char tecla = ler_teclado(); // Lê a tecla pressionada
-        if (tecla == 'B'){
-          ACIONA_TECLA_B 
-} else{}
- }

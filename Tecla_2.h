@@ -67,9 +67,9 @@ uint32_t matrix_rgb5(double r, double g, double b) {
 }
 
 // Rotina para acionar a matriz de LEDs - WS2812B
-void desenho_pio2(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b) {
+void desenho_pio14(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b) {
     for (int16_t i = 0; i < NUM_PIXELS; i++) {
-        valor_led = matrix_rgb3(desenho[i] * r, desenho[i] * g, desenho[i] * b);
+        valor_led = matrix_rgb5(desenho[i] * r, desenho[i] * g, desenho[i] * b);
         pio_sm_put_blocking(pio, sm, valor_led);
     }
 }
@@ -80,15 +80,15 @@ void animacao_CORACAO(uint32_t valor_led, PIO pio, uint sm) {
 
     // Exibe os frames em sequência.
 
-      desenho_pio1(frame1, valor_led, pio, sm, 1.0, 0.0, 0.0); // Vermelho (100%)
+      desenho_pio14(frame1, valor_led, pio, sm, 1.0, 0.0, 0.0); // Vermelho (100%)
       sleep_ms(1000); // Intervalo entre os frames.
-      desenho_pio1(frame2, valor_led, pio, sm, 0.0, 1.0, 0.0); // Vermelho (80%)
+      desenho_pio14(frame2, valor_led, pio, sm, 0.0, 1.0, 0.0); // Vermelho (80%)
       sleep_ms(1000); // Intervalo entre os frames.
-      desenho_pio1(frame3, valor_led, pio, sm, 1.0, 0.0, 0.0); // Vermelho (60%)
+      desenho_pio14(frame3, valor_led, pio, sm, 1.0, 0.0, 0.0); // Vermelho (60%)
       sleep_ms(1000); // Intervalo entre os frames.
-      desenho_pio1(frame4, valor_led, pio, sm, 0.0, 0.0, 1.0); // Vermelho (40%)
+      desenho_pio14(frame4, valor_led, pio, sm, 0.0, 0.0, 1.0); // Vermelho (40%)
       sleep_ms(1000); // Intervalo entre os frames.
-      desenho_pio1(frame5, valor_led, pio, sm, 1.0, 0.0, 0.0); // Vermelho (20%)
+      desenho_pio14(frame5, valor_led, pio, sm, 1.0, 0.0, 0.0); // Vermelho (20%)
       sleep_ms(1000); // Intervalo entre os frames.
         
        

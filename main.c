@@ -6,13 +6,18 @@
 #include "hardware/clocks.h"
 #include "hardware/adc.h"
 #include "pico/bootrom.h"
-#include "tecla_0.h"
-#include "tecla_A.h"
-#include "Tecla_3.h"
-#include "Tecla_D.h"
-#include "Tecla_2.h"
+
+#include "Tecla_A.h"
+#include "Tecla_B.h"
 #include "Tecla_C.h"
+#include "Tecla_D.h"
+#include "Tecla_0.h"
+#include "Tecla_1.h"
+#include "Tecla_2.h"
+#include "Tecla_3.h"
 #include "Tecla_5.h"
+#include "Tecla_6.h"
+#include "Tecla_7.h"   
 
 // Arquivo .pio
 #include "pio_matrix.pio.h"
@@ -72,8 +77,8 @@ char ler_teclado() {
 
 // Função principal
 int main() {
-    PIO pio = pio0;
-    bool ok;
+    PIO pio = pio0; // Define o pio como pio0 
+    bool ok; // Variável para verificar se o clock foi setado corretamente
     
     
 
@@ -99,7 +104,9 @@ int main() {
         {
         case '0':
             aciona_tecla_0(0, pio, sm); // Aciona a tecla 0
+            break;
         case '1':
+            animacao_X(0, pio, sm); // Exibe a animação do "X"
             break;
         case '2':
             animacao_CORACAO(0, pio, sm); // Exibe a animação do coração
@@ -112,10 +119,17 @@ int main() {
         case '5':
             funcao_tecla_5(); // Aciona a tecla 5
             break;
+        case '6':
+            aciona_tecla_6(0, pio, sm); // Aciona a tecla 6
+            break;
+        case '7':
+            tecla_7(0, pio, sm); // Aciona a tecla 7
+            break;
         case 'A':
             aciona_tecla_A(pio, sm); // Aciona a tecla A
             break;
         case 'B':
+            aciona_tecla_B(pio, sm); // Aciona a tecla B
             break;
         case 'C':
             ligar_vermelho(pio, sm); // Exibe a animação do LED

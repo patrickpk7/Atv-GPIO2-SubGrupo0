@@ -55,7 +55,7 @@ double letra_E[25] = {
     1.0, 1.0, 1.0, 1.0, 1.0};
 
 // Rotina para definir a intensidade de cores do LED
-uint32_t matrix_rgb3(double r, double g, double b) {
+uint32_t matrix_rgb12(double r, double g, double b) {
     unsigned char R, G, B;
     R = r * 255;
     G = g * 255;
@@ -66,24 +66,24 @@ uint32_t matrix_rgb3(double r, double g, double b) {
 
 
 // Rotina para acionar a matriz de LEDs - WS2812B
-void desenho_pio1(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b) {
+void desenho_pio12(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b) {
     for (int16_t i = 0; i < NUM_PIXELS; i++) {
-        valor_led = matrix_rgb3(desenho[i] * r, desenho[i] * g, desenho[i] * b);
+        valor_led = matrix_rgb12(desenho[i] * r, desenho[i] * g, desenho[i] * b);
         pio_sm_put_blocking(pio, sm, valor_led);
     }
 }
 
 // Função para exibir a animação da palavra "ALINE"
 void animacao_ALINE(uint32_t valor_led, PIO pio, uint sm) {
-    desenho_pio1(letra_A, valor_led, pio, sm, 1.0, 0.0, 0.0); // Vermelho
+    desenho_pio12(letra_A, valor_led, pio, sm, 1.0, 0.0, 0.0); // Vermelho
     sleep_ms(1000);
-    desenho_pio1(letra_L, valor_led, pio, sm, 0.0, 1.0, 0.0); // Verde
+    desenho_pio12(letra_L, valor_led, pio, sm, 0.0, 1.0, 0.0); // Verde
     sleep_ms(1000);
-    desenho_pio1(letra_I, valor_led, pio, sm, 0.0, 0.0, 1.0); // Azul
+    desenho_pio12(letra_I, valor_led, pio, sm, 0.0, 0.0, 1.0); // Azul
     sleep_ms(1000);
-    desenho_pio1(letra_N, valor_led, pio, sm, 1.0, 1.0, 0.0); // Amarelo
+    desenho_pio12(letra_N, valor_led, pio, sm, 1.0, 1.0, 0.0); // Amarelo
     sleep_ms(1000);
-    desenho_pio1(letra_E, valor_led, pio, sm, 1.0, 0.0, 1.0); // Rosa
+    desenho_pio12(letra_E, valor_led, pio, sm, 1.0, 0.0, 1.0); // Rosa
     sleep_ms(1000);
 }
 
