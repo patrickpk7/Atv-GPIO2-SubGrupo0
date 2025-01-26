@@ -51,6 +51,8 @@ Saída: Tecla 6 pressionada. Exibindo animação...
 ---
 
 #### LINK DO VÍDEO EXPLICATIVO:
+
+https://drive.google.com/file/d/1Tq7WuIZWtPRisVIC6NWfiX9I9WyR2NZ1/view?usp=sharing
 ---
 
 #### *PROJETO DESENVOLVIDO POR:*
