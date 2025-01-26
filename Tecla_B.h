@@ -26,7 +26,7 @@ uint32_t matrix_rgb8(double r, double g, double b) {
     return (G << 24) | (R << 16) | (B << 8);
 }
 
-// Função para ligar todos os leds em azul com 100% de intensidade
+// Função para ligar todos os leds em azul com 100% de intensidade ao pressionar a tecla B
 void aciona_tecla_B (PIO pio, uint sm) {
     uint32_t valor_led = matrix_rgb8(0.0, 0.0, 1.0);
     for (int16_t i = 0; i < NUM_PIXELS; i++) {

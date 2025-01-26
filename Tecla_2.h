@@ -74,7 +74,7 @@ void desenho_pio14(double *desenho, uint32_t valor_led, PIO pio, uint sm, double
     }
 }
 
-// Função para exibir a animação do coração pulsando
+// Função para exibir a animação do coração pulsando em 5 cores
 void animacao_CORACAO(uint32_t valor_led, PIO pio, uint sm) {
     
 

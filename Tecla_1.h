@@ -74,7 +74,7 @@ void desenho_pio10(double *desenho, uint32_t valor_led, PIO pio, uint sm, double
     }
 }
 
-// Função para exibir a animação do "X" pulsando
+// Função para exibir a animação do "X" pulsando em 5 frames
 void animacao_X(uint32_t valor_led, PIO pio, uint sm) {
     // Exibe os frames em sequência.
     desenho_pio10(X_1, valor_led, pio, sm, 1.0, 0.0, 0.0); // Vermelho (100%)

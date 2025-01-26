@@ -70,6 +70,7 @@ void desenho_pio11(double *desenho, uint32_t valor_led, PIO pio, uint sm, double
     }
 }
 
+// Exibe a animação de números de 1 a 5
 void aciona_tecla_6 (uint32_t valor_led, PIO pio, uint sm){
            desenho_pio11(numero_1, valor_led, pio, sm, 0.0, 1.0, 0.0);  // Verde
             sleep_ms(1000);

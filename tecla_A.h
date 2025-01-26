@@ -1,11 +1,11 @@
-// //#include <stdio.h>
-// #include <stdlib.h>
-// #include <math.h>
-// #include "pico/stdlib.h"
-// #include "hardware/pio.h"
-// #include "hardware/clocks.h"
-// #include "hardware/adc.h"
-// #include "pico/bootrom.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include "pico/stdlib.h"
+#include "hardware/pio.h"
+#include "hardware/clocks.h"
+#include "hardware/adc.h"
+#include "pico/bootrom.h"
 
 // Arquivo .pio
 #include "pio_matrix.pio.h"
@@ -26,7 +26,7 @@ uint32_t matrix_rgb2(double r, double g, double b) {
     return (G << 24) | (R << 16) | (B << 8);
 }
 
-// Função para desligar todos os LEDs
+// Função para desligar todos os LEDs ao pressionar a tecla A
 void aciona_tecla_A (PIO pio, uint sm) {
     uint32_t valor_led = matrix_rgb2(0.0, 0.0, 0.0);
     for (int16_t i = 0; i < NUM_PIXELS; i++) {
