@@ -77,13 +77,13 @@ void desenho_pio12(double *desenho, uint32_t valor_led, PIO pio, uint sm, double
 void animacao_ALINE(uint32_t valor_led, PIO pio, uint sm) {
     desenho_pio12(letra_A, valor_led, pio, sm, 1.0, 0.0, 0.0); // Vermelho
     sleep_ms(1000);
-    desenho_pio12(letra_L, valor_led, pio, sm, 0.0, 1.0, 0.0); // Verde
+    desenho_pio12(letra_L, valor_led, pio, sm, 1.0, 1.0, 0.0); // Amarelo
     sleep_ms(1000);
-    desenho_pio12(letra_I, valor_led, pio, sm, 0.0, 0.0, 1.0); // Azul
+    desenho_pio12(letra_I, valor_led, pio, sm, 1.0, 0.0, 1.0); // Rosa
     sleep_ms(1000);
-    desenho_pio12(letra_N, valor_led, pio, sm, 1.0, 1.0, 0.0); // Amarelo
+    desenho_pio12(letra_N, valor_led, pio, sm, 0.0, 1.0, 0.0); // Verde
     sleep_ms(1000);
-    desenho_pio12(letra_E, valor_led, pio, sm, 1.0, 0.0, 1.0); // Rosa
+    desenho_pio12(letra_E, valor_led, pio, sm, 0.0, 0.0, 1.0); // Azul
     sleep_ms(1000);
 }
 

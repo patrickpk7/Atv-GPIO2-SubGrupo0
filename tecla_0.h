@@ -71,15 +71,15 @@ void desenho_pio(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r
 }
 
 void aciona_tecla_0 (uint32_t valor_led, PIO pio, uint sm){
-            desenho_pio(seta_baixo, valor_led, pio, sm, 1.0, 0.0, 0.0);  // Vermelho
-            sleep_ms(1000);
-            desenho_pio(seta_cima, valor_led, pio, sm, 0.0, 0.0, 1.0);  // Azul
+            desenho_pio(seta_baixo, valor_led, pio, sm, 1.0, 1.0, 0.0);  // Amarelo
             sleep_ms(1000);
             desenho_pio(letra_x, valor_led, pio, sm, 0.0, 1.0, 0.0);  // Verde
             sleep_ms(1000);
-            desenho_pio(quadrado, valor_led, pio, sm, 1.0, 1.0, 0.0);  // Amarelo
+            desenho_pio(seta_cima, valor_led, pio, sm, 0.0, 1.0, 1.0);  // Ciano
             sleep_ms(1000);
             desenho_pio(losango, valor_led, pio, sm, 1.0,0.0,1.0);  // Rosa
+            sleep_ms(1000);
+            desenho_pio(quadrado, valor_led, pio, sm, 0.5, 0.0, 1.0);  // Roxo
             sleep_ms(1000);
 
 }

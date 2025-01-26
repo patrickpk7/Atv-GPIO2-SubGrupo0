@@ -54,7 +54,7 @@ double escada[25] = {
     0.0, 0.0, 0.0, 0.0, 0.7};
 
 // Rotina para definir a intensidade de cores do LED
-uint32_t matrix_rgb(double r, double g, double b) {
+uint32_t matrix_rgb15(double r, double g, double b) {
     unsigned char R, G, B;
     R = r * 255;
     G = g * 255;
@@ -63,24 +63,24 @@ uint32_t matrix_rgb(double r, double g, double b) {
 }
 
 // Rotina para acionar a matriz de LEDs - WS2812B
-void desenho_pio(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b) {
+void desenho_pio15(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b) {
     for (int16_t i = 0; i < NUM_PIXELS; i++) {
-        valor_led = matrix_rgb(desenho[i] * r, desenho[i] * g, desenho[i] * b);
+        valor_led = matrix_rgb15(desenho[i] * r, desenho[i] * g, desenho[i] * b);
         pio_sm_put_blocking(pio, sm, valor_led);
     }
 }
 
 void aciona_tecla_8 (uint32_t valor_led, PIO pio, uint sm){
-           desenho_pio(quadrado_preenchido, valor_led, pio, sm, 0.0, 1.0, 0.0);  // Verde
-            sleep_ms(500);
-            desenho_pio(cruz, valor_led, pio, sm, 0.0, 0.0, 1.0);  // Azul
-            sleep_ms(500);
-            desenho_pio(letra_o, valor_led, pio, sm, 1.0, 1.0, 0.0);  // Amarelo
-            sleep_ms(500);
-            desenho_pio(casa, valor_led, pio, sm, 1.0, 0.0, 0.0);  // Vermelho
-            sleep_ms(500);
-            desenho_pio(escada, valor_led, pio, sm, 0.0, 1.0,1.0);  // Verde claro
-            sleep_ms(500); 
+           desenho_pio15(quadrado_preenchido, valor_led, pio, sm, 0.0, 1.0, 0.0);  // Verde
+            sleep_ms(1000);
+            desenho_pio15(cruz, valor_led, pio, sm, 0.0, 0.0, 1.0);  // Azul
+            sleep_ms(1000);
+            desenho_pio15(letra_o, valor_led, pio, sm, 1.0, 1.0, 0.0);  // Amarelo
+            sleep_ms(1000);
+            desenho_pio15(casa, valor_led, pio, sm, 1.0, 0.0, 0.0);  // Vermelho
+            sleep_ms(1000);
+            desenho_pio15(escada, valor_led, pio, sm, 0.0, 1.0,1.0);  // Verde claro
+            sleep_ms(1000); 
 
 }
 
